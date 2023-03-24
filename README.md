@@ -2,9 +2,9 @@
 Tools and Apps to enable a Raspberry Pi driven small LCD Display to show various PC stats and more.
 
 ## Problem statement
-I am in the process of building a new PC rig and wantdd to look for new challenges. Watercooling is a given since it is so much fun (if you have the budget), RGB lighting is nearly unavoidable nowadays as well, so, yeah.
+I am in the process of building a new PC rig and wanted to look for new challenges. Watercooling is a given since it is so much fun (if you have the budget), RGB lighting is nearly unavoidable nowadays as well, so, yeah.
 
-I also had a very old pre-modding Antec case I wanted to refurbish to fit the setup I had in mind. That in itself has some challenges, but that is a different story.
+I also had a very old pre-modding-times Antec case I wanted to refurbish to fit the setup I had in mind. That in itself has some challenges, but that is a different story.
 
 So the one thing I hadn't done in the past was try and integrate a status display somewhere in or on the case. I decided to go for a small 5 inch LCD, but to have more options for my sensors, drive it via a Raspberry Pi Zero W I still have lying around.
 
