@@ -1,0 +1,133 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Demonstrate gaugeSVG.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <style>
+      body {
+        text-align: center;
+      }
+      
+      #container1, #container2, #container3, #container4 {
+        width:250px; height:200px;
+        display: inline-block;
+        margin: 1em;
+      }
+          
+      p {
+        display: block;
+        width: 450px;
+        margin: 2em auto;
+        text-align: left;
+      }
+    </style>
+    
+    <script src="javascript/gaugeSVG.js"></script>
+    <script>
+      window.onload = function(){
+        var gauge1 = new GaugeSVG({
+			id: "container1"
+        });
+        
+        var gauge2 = new GaugeSVG({
+			id: "container2", 
+			value: 49,
+			valueColor: "#444488",
+			min: 30,
+			max: 70,
+			minmaxColor: "#444488",
+			title: "Gauge 2",
+			titleColor: "#8888cc",
+			label: "m³/h (passage)",
+			labelColor: "#8888cc",
+			gaugeWidthScale: 1.25,
+			gaugeBorderColor: "#6666aa",
+			gaugeBorderWidth: 4.5,
+			gaugeShadowColor: "#444488",
+			gaugeShadowScale: 2.35,
+			canvasBackColor: "#333333",
+			gaugeBackColor: "#ccccff",
+			needleColor: "#8888cc",
+			lowerActionLimit: -1,
+			lowerWarningLimit: -1,
+			upperWarningLimit: -1,
+			upperActionLimit: -1,
+        });
+        
+        var gauge3 = new GaugeSVG({
+			id: "container3", 
+			value: 81, 
+			title: "Gauge 3",
+			label: "hits/min (beat)",
+			min: 20,
+			max: 120,
+			lowerActionLimit: -1,
+			lowerWarningLimit: 60,
+			upperWarningLimit: 105,
+			upperActionLimit: -1,
+			optimumRangeColor: "#88ff88",
+			warningRangeColor: "#f4f444"
+        });
+		
+		var gauge4 = new GaugeSVG({
+			id: "container4",
+			value: 35.0,
+			title: "Gauge 4",
+			label: "turns per minute",
+			gaugeWidthScale: 1.0,
+			min: 0.0,
+			max: 60.0,
+			lowerActionLimit: -1,
+			lowerWarningLimit: 0.0,
+			needleColor: "#880088",
+			optimumRangeColor: "#88ff88",
+			warningRangeColor: "#f4f444",
+			actionRangeColor: "#ff8888"
+		});
+    var gputemp = 30;
+    
+    var socket = new WebSocket("ws://localhost:8080");
+
+    socket.onmessage = function(event) {
+        const data = event.data.split(": ")
+        gputemp = parseFloat(data[1]);
+      };
+
+        setInterval(function() {
+          // gauge1.refresh(gauge1.randomSampleValue(0, 100));
+          gauge2.refresh(gputemp, true);          
+          gauge3.refresh(gauge3.randomSampleValue(66, 100), true);
+          // gauge4.refresh(gauge4.randomSampleValue(0, 600)/10.0, true);
+        }, 1000);
+      };
+    </script>
+
+	</head>
+  <body>    
+    <div id="container1"></div>
+    <div id="container2"></div>
+    <p></p>
+    <div id="container3"></div>
+    <div id="container4"></div>
+    <p>
+      The simple JavaScript class 'GaugeSVG' provides an easy interface to implement gauges as embedded SVG (scalable vector graphics) elements.
+    </p>
+    <p>
+      Every 'state of the art' browser should be able to show the embedded SVG gauges. Successful tests have been made with MS IE9, Google Chrome 27 and Firefox21.
+    </p>
+    <p>
+      Gauge 1 shows the the fallback behavour with the minimum set of parameters needed: the id of the container DIV only. The display value update is not animated.
+    </p>
+    <p>
+      Gauge 2 suppresses the warning and action areas and customizes the display range, background color, gauge arc color and shadow as well as the needle color. The display value update is animated.
+    </p>
+    <p>
+      Gauge 3 suppresses the action areas and customizes the warning areas. The display value update is animated.
+    </p>
+    <p>
+      Gauge 4 suppresses the lower action and warning areas. The display value update is animated.
+    </p>
+  </body>
+</html>

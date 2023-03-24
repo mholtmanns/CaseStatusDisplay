@@ -1,0 +1,142 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Testing SVG</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <style>
+      body {
+        text-align: center;
+      }
+          
+      p {
+        display: block;
+        width: 450px;
+        margin: 2em auto;
+        text-align: left;
+      }
+    </style>
+    <div id="container" style="text-align:center;" width="500px" height="500px">
+        <svg id="flag" version="1.1" width="800" height="200" xmlns="http://www.w3.org/2000/svg" style="float: center;">
+            <defs>
+                <clipPath id="visible">
+                    <rect x="0" y="0" width="400" height="200" />
+                </clipPath>
+                <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="100%" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="red" />
+                    <stop offset="100%" stop-color="blue" />
+                </linearGradient>
+            </defs>
+                <svg id="leftflag" x="0" width="400" height="200" style="float: left;">
+                    <rect width="100%" height="100%" fill-opacity="0" stroke="green" />
+                    <circle cx="200" cy="100" r="80" fill="green" />
+                    <text x="200" y="125" font-size="60" text-anchor="middle" fill="white">ABC</text>
+                </svg>
+                <svg id="rightflag" x="400" width="400" height="200" style="float: right;">
+                    <rect width="100%" height="100%" fill-opacity="0" stroke="blue" />
+                    <circle cx="200" cy="100" r="80" fill="green" />
+                    <text x="200" y="125" font-size="60" text-anchor="middle" fill="white">DEF</text>
+                </svg>
+                <svg id="measure">
+                </svg>
+        </svg>
+    </div>
+    <script>
+        var svgns  = "http://www.w3.org/2000/svg";
+        let offset = 0;
+        let count  = 0; // count until we reach the viewport boundary
+        let qfull  = false;
+        let mrange = 300; // y-dimension of the measurement graph
+        let tr = 0
+
+        const measurements = new Array();
+        
+        window.onload = function(){
+            var graph = document.getElementById('flag');
+            graph.setAttributeNS(null, 'clip-path', 'url(#visible)');
+            setInterval(function() {
+                if (count == mrange) {
+                    qfull = true;
+                }
+                let h = Math.floor(Math.random() * 180);
+                if ((count - offset) == 400) {
+                    // Flip left and right flag
+                    var lflag = document.getElementById("leftflag")
+                    var rflag = document.getElementById("rightflag")
+                    if (lflag.getAttributeNS(null, 'x') == 0) {
+                        lflag.setAttributeNS(null, 'x', '400');
+                        lflag.setAttributeNS(null, 'style', 'float: right');
+                    } else {
+                        lflag.setAttributeNS(null, 'x', '0');
+                        lflag.setAttributeNS(null, 'style', 'float: left');
+                    }
+                    if (lflag.getAttributeNS(null, 'x') == 400) {
+                        rflag.setAttributeNS(null, 'x', '0');
+                        rflag.setAttributeNS(null, 'style', 'float: left');
+                    } else {
+                        rflag.setAttributeNS(null, 'x', '400');
+                        rflag.setAttributeNS(null, 'style', 'float: right');
+                    }
+                    // Move Flag back to origin
+                    graph.setAttributeNS(null, 'transform', 'translate(0, 0)');
+                    // Move clip to correct position
+                    document.getElementById('visible').setAttributeNS(null, 'transform', 'translate(' + tr + ', 0)');
+                    // Move old measurement graph back to -400
+                    var measureList = document.getElementById('measure').firstChild;
+                    if (measureList.nodeType != 3) {
+                                var pos = measureList.getAttribute('x1');
+                                pos = pos - 400;
+                                measureList.setAttributeNS(null, 'x1', pos);
+                                measureList.setAttributeNS(null, 'x2', pos);
+                    }
+                    while ( measureList.nextSibling ) {
+                        measureList = measureList.nextSibling;
+                        if (measureList.nodeType != 3) {
+                                var pos = measureList.getAttribute('x1');
+                                pos = pos - 400;
+                                measureList.setAttributeNS(null, 'x1', pos);
+                                measureList.setAttributeNS(null, 'x2', pos);
+                        }
+                    }
+                        /* function (node) {
+                            if (node.nodeType != 3) {
+                                var pos = node.GetAttribute('x1');
+                                pos = pos - 400;
+                                node.setAttributeNS(null, 'x1', pos);
+                                node.setAttributeNS(null, 'x2', pos);
+                            }
+                        }
+                    )*/
+                    
+                    count = offset;
+                }
+                var distance = count + mrange;
+                var new_line = document.createElementNS(svgns, 'line');
+                new_line.setAttributeNS(null, 'id', 'l' + count);
+                new_line.setAttributeNS(null, 'x1', distance);
+                new_line.setAttributeNS(null, 'y1', '200');
+                new_line.setAttributeNS(null, 'x2', distance);
+                new_line.setAttributeNS(null, 'y2', h);
+                // new_line.setAttributeNS(null, 'stroke', 'orange');
+                new_line.setAttributeNS(null, 'stroke', 'url(#gradient)');
+                new_line.setAttributeNS(null, 'stroke-width', '1');
+                // document.getElementById('flag').appendChild(new_line);
+                document.getElementById('measure').appendChild(new_line);
+                if (qfull) {
+                    child = measurements.shift();
+                    document.getElementById('measure').removeChild(child);
+                }
+                measurements.push(new_line);
+                // Shift the whole drawing one pixel left
+                tr = -1 * (count - offset);
+                document.getElementById('flag').setAttribute('transform', 'translate(' + tr + ', 0)');
+                // Shift the viewport clip area back one pixel to the right
+                tr = -1 * tr;
+                document.getElementById('visible').setAttribute('transform', 'translate(' + tr + ', 0)');
+                count = count + 1;
+            }, 100);
+        }
+    </script>
+  </head>
+</html>

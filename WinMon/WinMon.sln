@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinMon", "WinMon\WinMon.csproj", "{5809D900-4880-4DB7-AAE2-D65A25357EE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibreHardwareMonitorLib", "..\..\LibreHardwareMonitor\LibreHardwareMonitorLib\LibreHardwareMonitorLib.csproj", "{3CBE9476-8B7C-4D33-8466-2A5D95D22116}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5809D900-4880-4DB7-AAE2-D65A25357EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5809D900-4880-4DB7-AAE2-D65A25357EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5809D900-4880-4DB7-AAE2-D65A25357EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5809D900-4880-4DB7-AAE2-D65A25357EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CBE9476-8B7C-4D33-8466-2A5D95D22116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CBE9476-8B7C-4D33-8466-2A5D95D22116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CBE9476-8B7C-4D33-8466-2A5D95D22116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CBE9476-8B7C-4D33-8466-2A5D95D22116}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7AF6B95-F654-49DA-8172-5CDBE9454D04}
+	EndGlobalSection
+EndGlobal
