@@ -1,0 +1,1 @@
+Docs will contain both Hardware and Software documentation
